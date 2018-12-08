@@ -1,0 +1,11 @@
+@import '../../../assets/styles/variables.scss';
+
+.header {
+  color: white;
+  background-color: #3f51b5;
+  box-shadow: $shadow;
+}
+
+p {
+  font-size: 30px;
+}
