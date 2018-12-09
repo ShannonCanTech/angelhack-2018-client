@@ -16,21 +16,18 @@ export class AtmComponent implements OnInit {
   constructor(private atmService: AtmService) { }
 
   ngOnInit() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.currentLocation.long = position.coords.longitude;
-        this.currentLocation.lat = position.coords.latitude;
 
-        this.atmService.getAtmLocations(this.currentLocation.lat, this.currentLocation.long).subscribe(data => {
-          data.forEach(element => {
-            const position = new Position();
-            position.lat = element.latitude;
-            position.long = element.longitude;
-    
-            this.otherLocations.push(position);
-          });
-        });
+    this.currentLocation.long = -122.344385;
+    this.currentLocation.lat = 47.632504;
+
+    this.atmService.getAtmLocations(this.currentLocation.lat, this.currentLocation.long).subscribe(data => {
+      data.forEach(element => {
+        const position = new Position();
+        position.lat = element.latitude;
+        position.long = element.longitude;
+
+        this.otherLocations.push(position);
       });
-    }
+    });
   }
 }
