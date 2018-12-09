@@ -3,14 +3,18 @@
 
 .btn {
   border: none;
-  border-radius: 1;
+  border-radius: 1px;
   box-shadow: $shadow;
+  font-size: 20px;
+  padding: 0.5rem 1rem;
 
   &:hover, &:focus {
     box-shadow: $shadow-focus;
   }
+}
 
-  // &:focus {
-  //   box-shadow: $shadow-focus;
-  // }
+.mat-card {
+  border: none;
+  border-radius: 1px;
+  box-shadow: $shadow;
 }

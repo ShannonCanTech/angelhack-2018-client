@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { HeaderComponent } from './core/header/header.component';
 import { AskComponent } from './ask/ask.component';
+import { TrainComponent } from './train/train.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
     HeaderComponent,
-    AskComponent
+    AskComponent,
+    TrainComponent
   ],
   imports: [
     BrowserModule,
