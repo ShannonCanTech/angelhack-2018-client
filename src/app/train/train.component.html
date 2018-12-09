@@ -9,7 +9,7 @@
         <label>Label: </label>
         <input class="col-2" type="number" maxlength="1" [(ngModel)]="label">
       </div>
-      <button class="btn btn-primary mb-1" (click)="snapTrain()">Train</button>
+      <button class="btn btn-primary mb-1" (mousedown)="mousedown()" (mouseup)="mouseup()">Train</button>
     </div>
 
     <div>

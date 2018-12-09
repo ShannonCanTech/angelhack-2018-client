@@ -20,6 +20,10 @@ export class TrainComponent implements OnInit, AfterViewInit {
 
   truncatedMobileNet: tf.Model;
 
+  isMouseDown: boolean = false;
+
+  trainDataInterval: NodeJS.Timer;
+
   private video;
 
   constructor(private webcamService: WebcamService, private controllerDatasetService: ControllerDatasetService) { }
@@ -33,14 +37,31 @@ export class TrainComponent implements OnInit, AfterViewInit {
     this.webcamService.setup(this.video);
   }
 
-  snapTrain() {
-    tf.tidy(() => {
-      const img = this.webcamService.capture(this.video);
-      this.controllerDatasetService.addExample(this.truncatedMobileNet.predict(img), this.label);
+  mouseup() {
+    if (this.trainDataInterval) {
+      clearInterval(this.trainDataInterval);
+      this.trainDataInterval = undefined;
+    }
+  }
 
-      // Draw the preview thumbnail.
-      this.draw(img, this.sampleElement.nativeElement);
-    });
+  mousedown() {
+    if (!this.trainDataInterval) {
+      this.startTraining();
+    }
+  }
+
+  startTraining() {
+    this.trainDataInterval = setInterval(() => {
+      tf.tidy(() => {
+        const img = this.webcamService.capture(this.video);
+        this.controllerDatasetService.addExample(this.truncatedMobileNet.predict(img), this.label);
+
+        // Draw the preview thumbnail.
+        this.draw(img, this.sampleElement.nativeElement);
+
+        console.log(`training label: ${this.label}`);
+      });
+    }, 100);
   }
 
   // Loads mobilenet and returns a model that returns the internal activation
