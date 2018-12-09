@@ -3,7 +3,15 @@ import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angula
 import * as tf from '@tensorflow/tfjs';
 
 import { WebcamService } from '../shared/services/webcam.service';
-import { ControllerDatasetService } from '../shared/services/controller-dataset.service';
+import { Router } from '@angular/router';
+import { input } from '@tensorflow/tfjs';
+
+enum INPUT {
+  ATM = 0,
+  LOUNGES = 2,
+  YES = 1,
+  NOTHING = 3
+}
 
 @Component({
   selector: 'app-ask',
@@ -20,19 +28,35 @@ export class AskComponent implements OnInit, AfterViewInit {
 
   cameraReadOutput: number = 0;
 
-  state = 0;
+  inputs = {
+    atm: 0,
+    yes: 1,
+    lounges: 2,
+    nothing: 3
+  }
+
+  state = this.inputs.nothing;
 
   private video;
   private reading: NodeJS.Timer;
 
   constructor(
     private webcamService: WebcamService,
-    private controllerDatasetService: ControllerDatasetService,
+    private router: Router,
     private modelAgentService: ModelAgentService
   ) { }
 
   ngOnInit() {
     this.video = this.videoElement.nativeElement;
+
+    if (!this.modelAgentService.truncatedMobileNet) {
+      this.modelAgentService.loadTruncatedMobileNet().then(res => {
+        // Warm up the model. This uploads weights to the GPU and compiles the WebGL
+        // programs so the first time we collect data from the webcam it will be
+        // quick.
+        tf.tidy(() => this.modelAgentService.truncatedMobileNet.predict(this.webcamService.capture(this.video)));
+      });
+    }
 
     if (!this.modelAgentService.hasTrained()) {
       console.error('Error !! data is not trained')
@@ -41,7 +65,9 @@ export class AskComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.webcamService.setup(this.video);
+  }
 
+  start() {
     if (this.modelAgentService.hasTrained()) {
       this.reading = setInterval(() => {
         const img = this.webcamService.capture(this.video);
@@ -56,7 +82,7 @@ export class AskComponent implements OnInit, AfterViewInit {
           console.log(`Reading with value ${predictedClass}`);
 
           predictedClass.dispose();
-          this.updateState();
+          this.processInput();
 
           tf.nextFrame();
         });
@@ -64,10 +90,14 @@ export class AskComponent implements OnInit, AfterViewInit {
     }
   }
 
+  isReady(): boolean {
+    return this.modelAgentService.hasTrained();
+  }
+
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    if(this.reading) {
+    if (this.reading) {
       clearInterval(this.reading);
     }
   }
@@ -83,17 +113,23 @@ export class AskComponent implements OnInit, AfterViewInit {
   /**
    * Dirty and quick way to update state, only 1-3
    */
-  updateState() {
-    if (this.cameraReadOutput === 1) {
-      this.state = 1;
+  processInput() {
+    if (this.cameraReadOutput === this.inputs.atm) {
+      this.state = this.inputs.atm;
     }
 
-    if (this.cameraReadOutput === 2) {
-      this.state = 2;
+    if (this.cameraReadOutput === this.inputs.lounges) {
+      this.state = this.inputs.lounges;
     }
 
-    if (this.cameraReadOutput === 3) {
-      this.state = 3;
+    if (this.cameraReadOutput === this.inputs.yes) {
+      if (this.state === this.inputs.atm) {
+        this.router.navigate(['/atm']);
+      }
+
+      if (this.state === this.inputs.lounges) {
+        this.router.navigate(['/lounges']);
+      }
     }
   }
 }

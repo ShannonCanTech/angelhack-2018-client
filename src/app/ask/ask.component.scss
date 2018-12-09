@@ -1,9 +1,13 @@
 @import '../../assets/styles/variables.scss';
 
+p {
+  font-size: 20px;
+}
+
 .train-container {
   justify-content: center;
   text-align: center;
- }
+}
 
 .video {
   box-shadow: $shadow;

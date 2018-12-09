@@ -1,21 +1,23 @@
 <div class="train-container">
+  <button class="btn btn-primary m-2 p-1" (click)="start()" [disabled]="!isReady()">Ask</button>
+
   <div class="mb-2" style="width:100%">
     <video class="video" autoplay playsinline muted #videoElement width="{{videoWidth}}" height="{{videoHeight}}"></video>
   </div>
 
   <div class="mat-card selection-area p-3 col-5">
-    <p *ngIf="state === 0">
+    <p *ngIf="state === inputs.nothing">
       How may I help you?
     </p>
 
-    <ng-container *ngIf="state === 1">
+    <ng-container *ngIf="state === inputs.atm">
       <p>
         Are you looking for ATMs ?
       </p>
       <button class="btn btn-primary" routerLink="/atm"> YES </button>
     </ng-container>
 
-    <ng-container *ngIf="state === 2">
+    <ng-container *ngIf="state === inputs.lounges">
         <p>
           Are you looking for Lounges ?
         </p>

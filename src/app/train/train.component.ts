@@ -39,12 +39,15 @@ export class TrainComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.video = this.videoElement.nativeElement;
-    this.modelAgentService.loadTruncatedMobileNet().then(res => {
-      // Warm up the model. This uploads weights to the GPU and compiles the WebGL
-      // programs so the first time we collect data from the webcam it will be
-      // quick.
-      tf.tidy(() => this.modelAgentService.truncatedMobileNet.predict(this.webcamService.capture(this.video)));
-    });
+
+    if (!this.modelAgentService.truncatedMobileNet) {
+      this.modelAgentService.loadTruncatedMobileNet().then(res => {
+        // Warm up the model. This uploads weights to the GPU and compiles the WebGL
+        // programs so the first time we collect data from the webcam it will be
+        // quick.
+        tf.tidy(() => this.modelAgentService.truncatedMobileNet.predict(this.webcamService.capture(this.video)));
+      });
+    }
   }
 
   ngAfterViewInit() {

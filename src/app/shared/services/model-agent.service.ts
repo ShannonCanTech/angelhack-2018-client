@@ -1,19 +1,31 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import * as tf from '@tensorflow/tfjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ModelAgentService {
+export class ModelAgentService implements OnInit {
 
   truncatedMobileNet: tf.Model;
 
   model: any;
 
-  constructor() { }
+  constructor() {
+    if (!this.model) {
+      tf.loadModel('https://s3-us-west-2.amazonaws.com/discoverhacks1/model/my-model-1.json').then(model => {
+        this.model = model;
+      });
+    }
+  }
 
-  hasTrained() {
-    return this.model && this.truncatedMobileNet;
+  ngOnInit() {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+
+  }
+
+  hasTrained(): boolean {
+    return !!this.model && !!this.truncatedMobileNet;
   }
   
   // Loads mobilenet and returns a model that returns the internal activation
