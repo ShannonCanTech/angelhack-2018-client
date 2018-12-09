@@ -12,6 +12,7 @@ import { AskComponent } from './ask/ask.component';
 import { TrainComponent } from './train/train.component';
 import { AtmComponent } from './atm/atm.component';
 import { MapComponent } from './map/map.component';
+import { LoungesComponent } from './lounges/lounges.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MapComponent } from './map/map.component';
     AskComponent,
     TrainComponent,
     AtmComponent,
-    MapComponent
+    MapComponent,
+    LoungesComponent
   ],
   imports: [
     BrowserModule,

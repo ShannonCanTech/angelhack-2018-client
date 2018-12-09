@@ -1,4 +1,7 @@
+@import '../../assets/styles/variables.scss';
+
 .map {
   width: 90%;
   height: 800px;
+  box-shadow: $shadow;
 }

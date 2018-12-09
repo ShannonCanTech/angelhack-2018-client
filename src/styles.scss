@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import './assets/styles/variables.scss';
 
+body {
+  background-color: rgb(236, 236, 236);
+}
+
 .btn {
   border: none;
   border-radius: 1px;
@@ -17,6 +21,7 @@
   border: none;
   border-radius: 1px;
   box-shadow: $shadow;
+  background-color: white;
 }
 
 .video {

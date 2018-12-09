@@ -1,0 +1,12 @@
+<div>
+  <h1>Lounges</h1>
+
+  <div *ngIf="lounges.length > 0" class="display-area p-2">
+    <div class="mat-card p-3 m-2" *ngFor="let l of lounges">
+      <h2>{{ l.lounge_name }}</h2>
+      <p> {{ l.airport_name }}</p>
+      <p><b>Direction: </b>{{ l.location }}</p>
+      <p><b>Distance: </b>{{ l.distance }}</p>
+    </div>
+  </div>
+</div>
