@@ -27,7 +27,13 @@ export class MapComponent implements OnInit {
 
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapProp);
 
-      var marker = new google.maps.Marker({position: {lat: this.lat, lng: this.long}, map: this.map});
+      var marker = new google.maps.Marker({
+        title: "You're here",
+        label: 'U',
+        position: { lat: this.lat, lng: this.long },
+        map: this.map
+      }
+      );
     }, 1000);
   }
 
