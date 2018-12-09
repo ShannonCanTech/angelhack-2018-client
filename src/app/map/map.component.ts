@@ -21,8 +21,6 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      console.log('Map');
-      console.log(this.currentLocation);
       let mapProp = {
         center: new google.maps.LatLng(this.currentLocation.lat, this.currentLocation.long),
         zoom: 15,
@@ -36,8 +34,14 @@ export class MapComponent implements OnInit {
         label: 'U',
         position: { lat: this.currentLocation.lat, lng: this.currentLocation.long },
         map: this.map
-      }
-      );
+      });
+
+      this.otherLocations.forEach(location => {
+        new google.maps.Marker({
+          position: { lat: location.lat, lng: location.long },
+          map: this.map
+        });
+      });
     }, 1000);
   }
 

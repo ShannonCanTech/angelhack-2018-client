@@ -52,8 +52,10 @@ export class AskComponent implements OnInit, AfterViewInit {
           this.cameraReadOutput = classId;
 
           tf.nextFrame();
+
+          console.log('Reading');
         });
-      }, 500);
+      }, 1000);
     }
   }
 
