@@ -42,7 +42,7 @@ export class MapComponent implements OnInit {
           map: this.map
         });
       });
-    }, 1000);
+    }, 2000);
   }
 
 }

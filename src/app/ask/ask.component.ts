@@ -36,6 +36,7 @@ export class AskComponent implements OnInit, AfterViewInit {
   }
 
   state = this.inputs.nothing;
+  started = false;
 
   private video;
   private reading: NodeJS.Timer;
@@ -69,6 +70,8 @@ export class AskComponent implements OnInit, AfterViewInit {
 
   start() {
     if (this.modelAgentService.hasTrained()) {
+      this.started = true;
+
       this.reading = setInterval(() => {
         const img = this.webcamService.capture(this.video);
 

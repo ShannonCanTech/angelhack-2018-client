@@ -1,6 +1,6 @@
 <div class="train-container">
   <button class="btn btn-primary m-2 p-1" (click)="start()" [disabled]="!isReady()">Ask</button>
-
+  <p *ngIf="started">Reading user gesture</p>
   <div class="mb-2" style="width:100%">
     <video class="video" autoplay playsinline muted #videoElement width="{{videoWidth}}" height="{{videoHeight}}"></video>
   </div>
