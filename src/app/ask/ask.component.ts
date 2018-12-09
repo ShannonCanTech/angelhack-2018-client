@@ -20,7 +20,10 @@ export class AskComponent implements OnInit, AfterViewInit {
 
   cameraReadOutput: number = 0;
 
+  state = 0;
+
   private video;
+  private reading: NodeJS.Timer;
 
   constructor(
     private webcamService: WebcamService,
@@ -40,22 +43,32 @@ export class AskComponent implements OnInit, AfterViewInit {
     this.webcamService.setup(this.video);
 
     if (this.modelAgentService.hasTrained()) {
-      setInterval(() => {
+      this.reading = setInterval(() => {
         const img = this.webcamService.capture(this.video);
 
         const predictedClass = this.modelAgentService.predict(img);
 
         (predictedClass.data() as Promise<any>).then(res => {
           const classId = res[0];
-          predictedClass.dispose();
 
           this.cameraReadOutput = classId;
 
-          tf.nextFrame();
+          console.log(`Reading with value ${predictedClass}`);
 
-          console.log('Reading');
+          predictedClass.dispose();
+          this.updateState();
+
+          tf.nextFrame();
         });
       }, 1000);
+    }
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    if(this.reading) {
+      clearInterval(this.reading);
     }
   }
 
@@ -65,5 +78,22 @@ export class AskComponent implements OnInit, AfterViewInit {
     }
 
     return 'What are you looking for?';
+  }
+
+  /**
+   * Dirty and quick way to update state, only 1-3
+   */
+  updateState() {
+    if (this.cameraReadOutput === 1) {
+      this.state = 1;
+    }
+
+    if (this.cameraReadOutput === 2) {
+      this.state = 2;
+    }
+
+    if (this.cameraReadOutput === 3) {
+      this.state = 3;
+    }
   }
 }
