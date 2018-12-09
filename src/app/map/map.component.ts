@@ -2,14 +2,16 @@
 
 import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
 
+import { Position } from '../shared/models/position.model';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-  @Input() lat: number;
-  @Input() long: number;
+  @Input() currentLocation: Position;
+  @Input() otherLocations: Position[];
 
   @ViewChild('map') mapElement: ElementRef;
 
@@ -19,8 +21,10 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
+      console.log('Map');
+      console.log(this.currentLocation);
       let mapProp = {
-        center: new google.maps.LatLng(this.lat, this.long),
+        center: new google.maps.LatLng(this.currentLocation.lat, this.currentLocation.long),
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
@@ -30,7 +34,7 @@ export class MapComponent implements OnInit {
       var marker = new google.maps.Marker({
         title: "You're here",
         label: 'U',
-        position: { lat: this.lat, lng: this.long },
+        position: { lat: this.currentLocation.lat, lng: this.currentLocation.long },
         map: this.map
       }
       );
