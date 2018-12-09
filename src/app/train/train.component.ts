@@ -122,6 +122,34 @@ export class TrainComponent implements OnInit, AfterViewInit {
     });
   }
 
+  predict() {
+    const predictedClass = tf.tidy(() => {
+      // Capture the frame from the webcam.
+      const img = this.webcamService.capture(this.video);
+
+      // Make a prediction through mobilenet, getting the internal activation of
+      // the mobilenet model, i.e., "embeddings" of the input images.
+      const embeddings = this.truncatedMobileNet.predict(img);
+
+      // Make a prediction through our newly-trained model using the embeddings
+      // from mobilenet as input.
+      const predictions = this.model.predict(embeddings);
+
+      // Returns the index with the maximum probability. This number corresponds
+      // to the class the model thinks is the most probable given the input.
+      return predictions.as1D().argMax();
+    });
+
+    (predictedClass.data() as Promise<any>).then(res => {
+      const classId = res[0];
+      predictedClass.dispose();
+
+      console.log(classId);
+
+      tf.nextFrame();
+    });
+  }
+
   private addData() {
     this.trainDataInterval = setInterval(() => {
       tf.tidy(() => {
