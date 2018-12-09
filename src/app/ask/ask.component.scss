@@ -1,5 +1,14 @@
 @import '../../assets/styles/variables.scss';
 
+.train-container {
+  justify-content: center;
+  text-align: center;
+ }
+
 .video {
   box-shadow: $shadow;
+}
+
+.selection-area {
+  display: inline-block;
 }

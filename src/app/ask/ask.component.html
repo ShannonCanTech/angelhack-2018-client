@@ -1,3 +1,11 @@
-<div style="text-align:center">
-  <video class="video" autoplay playsinline muted #videoElement></video>
+<div class="train-container">
+  <div class="mb-2" style="width:100%">
+    <video class="video" autoplay playsinline muted #videoElement width="{{videoWidth}}" height="{{videoHeight}}"></video>
+  </div>
+
+  <div class="mat-card selection-area p-3 col-5">
+    <p>
+      {{ getPrediction() }}
+    </p>
+  </div>
 </div>
