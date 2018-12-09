@@ -5,11 +5,13 @@
 
   <div class="mat-card train-area p-3 col-5">
     <div>
+      <button class="btn btn-primary mb-1" (click)="predict()" [disabled]="!this.model">Predict</button>
+      <button class="btn btn-primary mb-1" (click)="train()">Train</button>
       <div class="mb-1">
         <label>Label: </label>
         <input class="col-2" type="number" maxlength="1" [(ngModel)]="label">
       </div>
-      <button class="btn btn-primary mb-1" (mousedown)="mousedown()" (mouseup)="mouseup()">Train</button>
+      <button class="btn btn-primary mb-1" (mousedown)="mousedown()" (mouseup)="mouseup()">Add Data</button>
     </div>
 
     <div>
