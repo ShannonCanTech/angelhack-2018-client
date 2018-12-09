@@ -9,6 +9,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { HeaderComponent } from './core/header/header.component';
 import { AskComponent } from './ask/ask.component';
 import { TrainComponent } from './train/train.component';
+import { AtmComponent } from './atm/atm.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { TrainComponent } from './train/train.component';
     WelcomeComponent,
     HeaderComponent,
     AskComponent,
-    TrainComponent
+    TrainComponent,
+    AtmComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

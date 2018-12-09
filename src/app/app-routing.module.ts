@@ -1,3 +1,4 @@
+import { AtmComponent } from './atm/atm.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -9,6 +10,7 @@ const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent },
   { path: 'ask', component: AskComponent },
   { path: 'train', component: TrainComponent },
+  { path: 'atm', component: AtmComponent },
   { path: '', redirectTo: '/welcome', pathMatch: 'full' }
 ];
 
